@@ -1,5 +1,5 @@
 # flapiaui
 
 ## TODO
-  [ ] frontend and backend initialization
-  [ ] Docker container
+ - [ ] frontend and backend initialization
+ - [ ] Docker container
