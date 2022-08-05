@@ -1,0 +1,17 @@
+FROM node:lts-alpine
+
+RUN mkdir /app
+
+WORKDIR /app
+
+COPY ./App/package*.json ./
+
+RUN yarn install
+
+RUN chown -R node /app/node_modules
+
+COPY ./App .
+
+EXPOSE 5173 
+
+CMD ["yarn", "dev","--host"]

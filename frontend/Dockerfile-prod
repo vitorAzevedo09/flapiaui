@@ -1,0 +1,21 @@
+FROM node:lst-alpine
+
+RUN yarn add global http-server
+
+RUN mkdir /app
+
+WORKDIR /app
+
+COPY ./App/package*.json ./
+
+RUN yarn install
+
+RUN chown -R node /app/node_modules
+
+COPY ./App .
+
+RUN yarn build
+
+EXPOSE 8080
+
+CMD ["http-server", "dist"]
