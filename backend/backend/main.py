@@ -1,14 +1,23 @@
 import uvicorn
 from fastapi import FastAPI
+from backend.api.app.routers import default
+from backend.api.core.config import settings
 
-app = FastAPI()
+
+def include_router(app):
+    app.include_router(default.router)
 
 
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
+def start_application():
+    app = FastAPI(title=settings.APP_TITLE, version=settings.APP_VERSION)
+    include_router(app)
+    return app
 
-def start():
-    """Launched with `poetry run start` at root level"""
-    uvicorn.run("backend.main:app", host="0.0.0.0", port=8000, reload=True)
+def main() -> int:
+    app = start_application()
+    uvicorn.run(app,host=settings.APP_HOST,port=int(settings.APP_PORT))
+    return 0
+
+if __name__ == "__main__":
+    main()
 
