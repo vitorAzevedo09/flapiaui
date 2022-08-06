@@ -10,3 +10,17 @@ services:
     volumes:
        - ./frontend:/App/frontend
        - /app/node_modules
+  backend:
+      build: 
+        context: ./backend/
+        dockerfile: ./Dockerfile
+      ports:
+        - 8000:8001
+      environment:
+        - ENVIRONMENT=dev
+        - TESTING=1
+      networks:
+        - backend
+networks:
+  backend:
+    driver: bridge

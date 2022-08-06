@@ -4,3 +4,6 @@ LICENSE
 README.md
 ./frontend/Dockerfile-dev
 ./frontend/Dockerfile-prod
+./backend/Dockerfile-dev
+./backend/Dockerfile-prod
+
