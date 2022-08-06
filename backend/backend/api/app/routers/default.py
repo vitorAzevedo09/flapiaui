@@ -5,4 +5,4 @@ router = APIRouter()
 
 @router.get('/')
 async def read_root():
-    return {"ping": "pong"}
+    return {"message": "DALE DALE MENGOOO!"}

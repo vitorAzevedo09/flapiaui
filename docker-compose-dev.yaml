@@ -14,13 +14,29 @@ services:
       build: 
         context: ./backend/
         dockerfile: ./Dockerfile
+      volumes:
+      - ./:/usr/src/app/
       ports:
-        - 8000:8001
-      environment:
-        - ENVIRONMENT=dev
-        - TESTING=1
+        - 8000:8000
+      container_name: backend 
+      env_file:
+        - ./backend/backend/.env
       networks:
         - backend
+      command: uvicorn backend.backend.main:app --host 0.0.0.0 --port 8000 --reload
+      depends_on:
+        - db 
+  db:
+    container_name: db
+    image: postgres:alpine
+    env_file:
+      - ./backend/backend/.env
+    volumes:
+      - postgres-db:/var/lib/postgres/data
+
 networks:
   backend:
     driver: bridge
+
+volumes:
+  postgres-db:
