@@ -12,6 +12,8 @@ python = "^3.10"
 fastapi = "^0.79.0"
 uvicorn = "^0.18.2"
 python-dotenv = "^0.20.0"
+SQLAlchemy = "^1.4.40"
+alembic = "^1.8.1"
 
 [tool.poetry.dev-dependencies]
 pytest = "^6.2"
