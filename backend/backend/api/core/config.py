@@ -1,18 +1,18 @@
-from dotenv import load_dotenv
-from pathlib import Path
 import os
+from pathlib import Path
+from dotenv import load_dotenv
+from functools import lru_cache
+from pydantic import BaseSettings, PostgresDsn
 
 dir_path=(Path(__file__)/"..").resolve()
 env_path=os.path.join(dir_path,'.env')
 
 load_dotenv(dotenv_path=env_path)
 
-class Settings():
-    APP_TITLE: str = os.getenv("APP_TITLE") or "My API"
-    APP_VERSION: str = os.getenv("APP_VERSION") or "0.0.1"
-    APP_HOST: str = os.getenv("APP_HOST") or "0.0.0.0"
-    APP_PORT: str = os.getenv("APP_PORT") or "8001"
-    DATABASE_URL: str = os.getenv("DATABASE_URL") or ""
+class Settings(BaseSettings):
+    databse_url: PostgresDsn
 
-
-settings = Settings()
+@lru_cache
+def get_settings() -> Settings:
+    settings = Settings()
+    return settings
