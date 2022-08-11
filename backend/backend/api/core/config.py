@@ -12,6 +12,7 @@ class Settings():
     APP_VERSION: str = os.getenv("APP_VERSION") or "0.0.1"
     APP_HOST: str = os.getenv("APP_HOST") or "0.0.0.0"
     APP_PORT: str = os.getenv("APP_PORT") or "8001"
+    DATABASE_URL: str = os.getenv("DATABASE_URL") or ""
 
 
 settings = Settings()
