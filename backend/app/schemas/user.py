@@ -1,6 +1,7 @@
-from pydantic import BaseModel
 from pydantic.types import UUID4
+from pydantic import BaseModel
 from datetime import date
+from typing import Optional
 
 from helpers.convertion import to_camel
 
@@ -18,6 +19,14 @@ class UserCreate(UserBase):
     document: str
     password: str
     birth_date: date
+
+class UserUpdate(UserBase):
+    first_name: Optional[str]
+    last_name: Optional[str]
+    document: Optional[str]
+    password: Optional[str]
+    birth_date: Optional[date]
+
 
 class UserOut(BaseModel):
     id: UUID4

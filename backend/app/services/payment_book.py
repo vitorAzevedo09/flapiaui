@@ -12,5 +12,5 @@ class PaymentBookService(BaseService[PaymentBook, PaymentBookCreate, PaymentBook
     def __init__(self, db_session: Session):
         super(PaymentBookService, self).__init__(PaymentBook, db_session)
 
-def get_user_service(db_session: Session = Depends(get_session)) -> PaymentBookService:
+def get_payment_book_service(db_session: Session = Depends(get_session)) -> PaymentBookService:
     return PaymentBookService(db_session)

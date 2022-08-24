@@ -12,6 +12,11 @@ class MonthlyPaymentBase(BaseModel):
 
 class MonthlyPaymentCreate(MonthlyPaymentBase):
     payment_book_id: UUID4
+    price: condecimal(decimal_places=2) # type: ignore
+    month: int
+    is_payed: Optional[bool] = False
+
+class MonthlyPaymentUpdate(MonthlyPaymentBase):
     price: Optional[condecimal(decimal_places=2)] # type: ignore
     month: Optional[int]
     is_payed: Optional[bool] = False
