@@ -1,6 +1,7 @@
 from functools import lru_cache
 from typing import Generator
 
+from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 
@@ -21,3 +22,5 @@ def get_session() -> Generator[scoped_session, None, None]:
         yield Session
     finally:
         Session.remove()
+
+Base = declarative_base()
