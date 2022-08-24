@@ -3,9 +3,9 @@ from pydantic import BaseModel
 from datetime import date
 from typing import Optional
 
-from helpers.convertion import to_camel
+from ..helpers.convertion import to_camel
 
-from payment_book import PaymentBookOut
+from .payment_book import PaymentBookOut
 
 class UserBase(BaseModel):
     class config:

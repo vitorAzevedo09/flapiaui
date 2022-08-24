@@ -11,7 +11,7 @@ from sqlalchemy.sql.sqltypes import TIMESTAMP
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
-from configs.sessions import Base
+from ..configs.sessions import Base
 
 from uuid import uuid4
 

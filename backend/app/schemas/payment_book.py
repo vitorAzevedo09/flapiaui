@@ -1,9 +1,9 @@
 from pydantic import BaseModel
 from pydantic.types import UUID4
 
-from helpers.convertion import to_camel
+from ..helpers.convertion import to_camel
 
-from monthly_payment import MonthlyPaymentOut
+from .monthly_payment import MonthlyPaymentOut
 
 class PaymentBookBase(BaseModel):
     class config:

@@ -2,9 +2,9 @@
 from fastapi import Depends
 from sqlalchemy.orm import Session
 
-from models.payment_book import PaymentBook
-from schemas.payment_book import PaymentBookCreate, PaymentBookUpdate
-from configs.sessions import get_session
+from ..models.payment_book import PaymentBook
+from ..schemas.payment_book import PaymentBookCreate, PaymentBookUpdate
+from ..configs.sessions import get_session
 
 from base import BaseService
 

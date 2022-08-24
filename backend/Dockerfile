@@ -1,6 +1,6 @@
-FROM python:3.10
+FROM python:3.10-alpine
 
-COPY ./app/ /app/src
+COPY ./app/ /app/app
 COPY ./requirements/requirements-base.txt /app
 
 WORKDIR /app
@@ -9,4 +9,4 @@ RUN pip3 install -r requirements-base.txt
 
 EXPOSE 8000
 
-CMD ["uvicorn", "src.main:app", "--host=0.0.0.0", "--reload"]
+CMD ["uvicorn", "app.main:app", "--host=0.0.0.0", "--reload"]

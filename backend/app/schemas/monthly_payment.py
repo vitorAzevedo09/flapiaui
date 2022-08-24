@@ -2,7 +2,7 @@ from typing import Optional
 from pydantic import BaseModel
 from pydantic.types import condecimal, UUID4, constr
 
-from helpers.convertion import to_camel
+from ..helpers.convertion import to_camel
 
 class MonthlyPaymentBase(BaseModel):
     class config:
