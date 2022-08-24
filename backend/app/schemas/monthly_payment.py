@@ -1,4 +1,6 @@
-from pydantic import BaseModel, Optional
+from typing import Optional
+from pydantic import BaseModel
+from pydantic.types import condecimal, UUID4, constr
 
 from helpers.convertion import to_camel
 
@@ -9,9 +11,9 @@ class MonthlyPaymentBase(BaseModel):
         allow_population_by_field_name = True
 
 class MonthlyPaymentCreate(MonthlyPaymentBase):
-    payment_book_id: Optional[int] = None
-    price: Optional[float] = None
-    month: Optional[int] = None
+    payment_book_id: UUID4
+    price: Optional[condecimal(decimal_places=2)] # type: ignore
+    month: Optional[int]
     is_payed: Optional[bool] = False
 
 class MonthlyPaymentOut(MonthlyPaymentBase):

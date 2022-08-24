@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from pydantic.types import UUID4
 
 from helpers.convertion import to_camel
 
@@ -11,12 +12,12 @@ class PaymentBookBase(BaseModel):
         allow_population_by_field_name = True
 
 class PaymentBookCreate(PaymentBookBase):
-    payer_id: int
+    payer_id: UUID4
     year: int
 
 
 class PaymentBookOut(PaymentBookBase):
-    payer_id: int
+    payer_id: UUID4
     year: int
     is_payed: bool
     monthly_payments: list[MonthlyPaymentOut] = list()

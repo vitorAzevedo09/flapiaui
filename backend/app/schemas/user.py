@@ -1,4 +1,5 @@
 from pydantic import BaseModel
+from pydantic.types import UUID4
 from datetime import date
 
 from helpers.convertion import to_camel
@@ -19,7 +20,7 @@ class UserCreate(UserBase):
     birth_date: date
 
 class UserOut(BaseModel):
-    id: int
+    id: UUID4
     first_name: str
     last_name: str
     document: str
