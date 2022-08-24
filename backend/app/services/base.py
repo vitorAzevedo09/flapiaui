@@ -38,3 +38,10 @@ class BaseService(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
             else:
                 raise e
         return db_obj
+
+    def update(self, id: Any, obj: UpdateSchemaType) -> Optional[ModelType]:
+        db_obj = self.get(id)
+        for column, value in obj.dict(exclude_unset=True).items():
+            setattr(db_obj, column, value)
+        self.db_session.commit()
+        return db_obj
