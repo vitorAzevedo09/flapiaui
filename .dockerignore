@@ -2,8 +2,13 @@ docker-compose-dev.yaml
 docker-compose-prod.yaml
 LICENSE
 README.md
-./frontend/Dockerfile-dev
-./frontend/Dockerfile-prod
-./backend/Dockerfile-dev
-./backend/Dockerfile-prod
 
+__pycache__
+venv/
+.env
+backend/Dockerfile
+.dockerignore
+.pytest_cache
+Procfile
+nginx
+gunicorn.service
