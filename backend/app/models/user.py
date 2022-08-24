@@ -1,8 +1,9 @@
 from sqlalchemy import (
+        Date,
         Column,
-        Boolean,
-        Integer,
         String,
+        Integer,
+        Boolean,
         )
 
 from sqlalchemy.dialects.postgresql import UUID
@@ -24,9 +25,7 @@ class User(Base):
     document = Column(String, nullable=False, unique=True)
     is_admin = Column(Boolean, default=False)
     password = Column(String, nullable=False)
-    birth_date = Column(TIMESTAMP(timezone=True),
-                        nullable=False,
-                        server_default=func.now())
+    birth_date = Column(Date, nullable=False,)
     created_at = Column(TIMESTAMP(timezone=True),
                         nullable=False,
                         server_default=func.now())
