@@ -5,9 +5,8 @@ from sqlalchemy import (
         ForeignKey,
         )
 
-from sqlalchemy.orm import relationship
-
 from sqlalchemy.sql.sqltypes import TIMESTAMP
+from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
 
 from configs.sessions import Base
