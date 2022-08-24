@@ -15,6 +15,10 @@ class PaymentBookCreate(PaymentBookBase):
     payer_id: UUID4
     year: int
 
+class PaymentBookUpdate(PaymentBookBase):
+    payer_id: UUID4
+    is_payed: bool
+    year: int
 
 class PaymentBookOut(PaymentBookBase):
     payer_id: UUID4
