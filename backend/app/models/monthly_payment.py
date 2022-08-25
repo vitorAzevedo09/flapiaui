@@ -31,7 +31,7 @@ class MonthlyPayment(Base):
     created_at = Column(TIMESTAMP(timezone=True),
                         nullable=False,
                         server_default=func.now())
-    payment_book_id = Column(Integer,
+    payment_book_id = Column(UUID(as_uuid=True),
                              ForeignKey("payment_books.payment_book_id",
                                         ondelete="CASCADE"),
                              nullable=False)

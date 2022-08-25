@@ -29,7 +29,7 @@ class PaymentBook(Base):
     created_at = Column(TIMESTAMP(timezone=True),
                         nullable=False,
                         server_default=func.now())
-    payer_id = Column(Integer,
+    payer_id = Column(UUID(as_uuid=True),
                       ForeignKey("users.user_id", ondelete="CASCADE"),
                       nullable=False)
     payer = relationship("User", back_populates="payment_books")
