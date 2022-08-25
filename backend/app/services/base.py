@@ -1,7 +1,7 @@
 from typing import Any, Generic, List, Optional, Type, TypeVar
 
 from sqlalchemy.exc import IntegrityError
-from pydantic import BaseModel
+from pydantic import BaseModel, UUID4
 from sqlalchemy.orm import Session
 from starlette.exceptions import HTTPException
 
@@ -16,7 +16,7 @@ class BaseService(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
         self.model = model
         self.db_session = db_session
 
-    def get(self, id: Any) -> Optional[ModelType]:
+    def get(self, id: UUID4) -> Optional[ModelType]:
         obj: Optional[ModelType] = self.db_session.query(self.model).get(id)
         if obj is None:
             raise HTTPException(status_code=404, detail="Not Found")
@@ -39,14 +39,14 @@ class BaseService(Generic[ModelType, CreateSchemaType, UpdateSchemaType]):
                 raise e
         return db_obj
 
-    def update(self, id: Any, obj: UpdateSchemaType) -> Optional[ModelType]:
+    def update(self, id: UUID4, obj: UpdateSchemaType) -> Optional[ModelType]:
         db_obj = self.get(id)
         for column, value in obj.dict(exclude_unset=True).items():
             setattr(db_obj, column, value)
         self.db_session.commit()
         return db_obj
 
-    def delete(self, id: Any) -> None:
+    def delete(self, id: UUID4) -> None:
         db_obj = self.db_session.query(self.model).get(id)
         self.db_session.delete(db_obj)
         self.db_session.commit()

@@ -18,14 +18,14 @@ from uuid import uuid4
 class PaymentBook(Base):
     ''' Carnê '''
     __tablename__ = "payment_books"
-    id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
+    payment_book_id = Column(UUID(as_uuid=True), primary_key=True, default=uuid4)
     year = Column(Integer, nullable=False)
     is_payed = Column(Boolean, default=False)
     created_at = Column(TIMESTAMP(timezone=True),
                         nullable=False,
                         server_default=func.now())
     payer_id = Column(Integer,
-                      ForeignKey("users.id", ondelete="CASCADE"),
+                      ForeignKey("users.user_id", ondelete="CASCADE"),
                       nullable=False)
     payer = relationship("User", back_populates="payment_books")
     monthly_payments = relationship("MonthlyPayment", back_populates="payment_book")
