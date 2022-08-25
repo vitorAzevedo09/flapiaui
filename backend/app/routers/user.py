@@ -13,7 +13,7 @@ router = APIRouter(prefix="/users", tags=['Users'])
 @router.get('/{id}',
             response_model=UserOut)
 async def get_user(id: UUID4,
-                   user_service: UserService = Depends(get_user_service)):
+                   user_service: UserService = Depends(get_user_service)) -> User:
     return user_service.get(id=id)
 
 
@@ -21,7 +21,7 @@ async def get_user(id: UUID4,
              status_code=status.HTTP_201_CREATED,
              response_model=UserOut)
 async def create_user(user: UserCreate,
-                      user_service: UserService = Depends(get_user_service)):
+                      user_service: UserService = Depends(get_user_service)) -> User:
     return user_service.create(user)
 
 
@@ -35,7 +35,7 @@ async def list_user(user_service: UserService = Depends(get_user_service)) -> Li
               response_model=UserOut)
 async def update_user(id: UUID4,
                       user: UserUpdate,
-                      user_service: UserService = Depends(get_user_service)):
+                      user_service: UserService = Depends(get_user_service)) -> User:
     return user_service.update(id=id, obj=user)
 
 
