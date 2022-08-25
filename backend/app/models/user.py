@@ -1,10 +1,9 @@
 from sqlalchemy import (
-        Date,
-        Column,
-        String,
-        Integer,
-        Boolean,
-        )
+    Date,
+    Column,
+    String,
+    Boolean,
+)
 
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.sql.sqltypes import TIMESTAMP
@@ -14,6 +13,9 @@ from sqlalchemy.sql import func
 from ..configs.sessions import Base
 
 from uuid import uuid4
+
+from .payment_book import *
+
 
 class User(Base):
     ''' Usuario '''
@@ -30,6 +32,6 @@ class User(Base):
                         nullable=False,
                         server_default=func.now())
     logged_at = Column(TIMESTAMP(timezone=True),
-                        nullable=False,
-                        server_default=func.now())
-    payment_books = relationship("PaymentBook", back_populates="payer")
+                       nullable=False,
+                       server_default=func.now())
+    payment_books = relationship('PaymentBook', back_populates="payer")
