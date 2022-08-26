@@ -14,7 +14,6 @@ class UserBase(BaseModel):
         allow_population_by_field_name = True
 
 class UserCreate(UserBase):
-    user_id: UUID4
     first_name: str
     last_name: str
     document: str

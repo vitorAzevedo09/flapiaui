@@ -1,8 +1,5 @@
-
-
-from fastapi.security import OAuth2PasswordBearer
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from fastapi import Depends, status, HTTPException
-from fastapi.security.oauth2 import OAuth2PasswordRequestForm
 
 from sqlalchemy.orm import Session
 from jose import JWTError, jwt
@@ -23,58 +20,64 @@ ALGORITHM = get_settings().ALGORITHM
 ACCESS_TOKEN_EXPIRE_MINUTES = get_settings().ACCESS_TOKEN_EXPIRE_MINUTES
 
 
-def create_access_token(data: dict):
-    to_encode = data.copy()
+class AuthService():
 
-    expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
-    to_encode.update({"exp": expire})
+    def __init__(self, db_session: Session):
+        self.db_session = db_session
 
-    encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+    def create_access_token(self, data: dict):
+        to_encode = data.copy()
 
-    return encoded_jwt
+        expire = datetime.utcnow() + timedelta(minutes=ACCESS_TOKEN_EXPIRE_MINUTES)
+        to_encode.update({"exp": expire})
+
+        encoded_jwt = jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
+
+        return encoded_jwt
 
 
-def verify_access_token(token: str, credentials_exception):
+    def verify_access_token(self,token: str, credentials_exception):
 
-    try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
-        id: Any = payload.get("user_id")
-        if id is None:
+        try:
+            payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+            id: Any = payload.get("user_id")
+            if id is None:
+                raise credentials_exception
+            token_data = oauth2.TokenData(id=id)
+        except JWTError:
             raise credentials_exception
-        token_data = oauth2.TokenData(id=id)
-    except JWTError:
-        raise credentials_exception
 
-    return token_data
+        return token_data
 
 
-def get_current_user(token: str = Depends(oauth2_scheme),
-                     db: Session = Depends(get_session)):
-    credentials_exception = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail=f"Could not validate credentials",
-        headers={"WWW-Authenticate": "Bearer"})
+    async def get_current_user(self, token: str = Depends(oauth2_scheme)):
+        credentials_exception = HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail=f"Could not validate credentials",
+            headers={"WWW-Authenticate": "Bearer"})
 
-    token_db: oauth2.TokenData = verify_access_token(
-        token, credentials_exception)
+        token_db = self.verify_access_token(token, credentials_exception)
 
-    user = db.query(User).filter(User.id == token_db.id).first()
-    return user
+        user = self.db_session.query(User).filter(User.id == token_db.id).first()
+        return user
 
 
-def login(db: Session = Depends(get_session),
-        user_credentials: OAuth2PasswordRequestForm = Depends()) -> dict[str, str]:
-    user = db.query(User).filter(
-        User.document == user_credentials.username).first()
+    def login(self, credentials: OAuth2PasswordRequestForm) -> dict[str, str]:
+        user = self.db_session.query(User).filter(
+            User.document == credentials.username).first()
 
-    if not user:
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
-                            detail=f"Invalid Credentials")
+        if not user:
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
+                                detail=f"Invalid Credentials")
 
-    if not verify(user_credentials.password, user.password):
-        raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
-                            detail=f"Invalid Credentials")
+        if not verify(credentials.password, user.password):
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN,
+                                detail=f"Invalid Credentials")
 
-    access_token = create_access_token(data={"user_id": user.id})
+        access_token = self.create_access_token(data={"user_id": str(user.user_id)})
 
-    return {"access_token": access_token, "token_type": "bearer"}
+        return {"access_token": access_token, "token_type": "bearer"}
+
+
+def get_auth_service(db_session: Session = Depends(get_session)) -> AuthService:
+    return AuthService(db_session)

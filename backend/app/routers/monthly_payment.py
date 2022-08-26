@@ -8,7 +8,15 @@ from ..models.monthly_payment import MonthlyPayment
 from ..schemas.monthly_payment import MonthlyPaymentOut, MonthlyPaymentCreate, MonthlyPaymentUpdate
 from ..services.monthly_payment import MonthlyPaymentService, get_monthly_payment_service
 
-router = APIRouter(prefix="/monthly_payments", tags=['MonthlyPayments'])
+from ..dependencies import is_admin
+
+router = APIRouter(
+        prefix="/monthly_payments",
+        tags=['MonthlyPayments'],
+        dependencies=[
+            Depends(is_admin)
+            ]
+        )
 
 
 @router.post('/',

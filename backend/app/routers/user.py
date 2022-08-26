@@ -7,7 +7,15 @@ from ..models.user import User
 from ..schemas.user import UserOut, UserCreate, UserUpdate
 from ..services.user import UserService, get_user_service
 
-router = APIRouter(prefix="/users", tags=['Users'])
+# from ..dependencies import is_admin
+
+router = APIRouter(
+        prefix="/users",
+        tags=['Users'],
+        # dependencies=[
+        #     Depends(is_admin)
+        #     ],
+        )
 
 
 @router.post('/',
@@ -40,7 +48,7 @@ async def update_user(id: UUID4,
 
 
 @router.delete('/{id}',
-               status_code=status.HTTP_200_OK)
+               status_code=status.HTTP_204_NO_CONTENT)
 async def delete_user(
         id: UUID4,
         user_service: UserService = Depends(get_user_service)) -> None:

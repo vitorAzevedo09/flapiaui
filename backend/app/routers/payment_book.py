@@ -8,7 +8,14 @@ from ..models.payment_book import PaymentBook
 from ..schemas.payment_book import PaymentBookOut, PaymentBookCreate, PaymentBookUpdate
 from ..services.payment_book import PaymentBookService, get_payment_book_service
 
-router = APIRouter(prefix="/payment_books", tags=['PaymentBooks'])
+from ..dependencies import is_admin
+
+router = APIRouter(
+        prefix="/payment_books",
+        tags=['PaymentBooks'],
+        dependencies=[
+            Depends(is_admin)
+            ])
 
 
 @router.post('/',
