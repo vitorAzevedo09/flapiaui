@@ -6,7 +6,7 @@ from ..helpers.convertion import to_camel
 from .monthly_payment import MonthlyPaymentOut
 
 class PaymentBookBase(BaseModel):
-    class config:
+    class Config:
         orm_mode = True
         alias_generator = to_camel
         allow_population_by_field_name = True

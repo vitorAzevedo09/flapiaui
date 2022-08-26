@@ -5,7 +5,7 @@ from pydantic.types import condecimal, UUID4, constr
 from ..helpers.convertion import to_camel
 
 class MonthlyPaymentBase(BaseModel):
-    class config:
+    class Config:
         orm_mode = True
         alias_generator = to_camel
         allow_population_by_field_name = True

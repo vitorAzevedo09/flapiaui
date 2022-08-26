@@ -10,14 +10,7 @@ from ..services.user import UserService, get_user_service
 router = APIRouter(prefix="/users", tags=['Users'])
 
 
-@router.get('/{id}',
-            response_model=UserOut)
-async def get_user(id: UUID4,
-                   user_service: UserService = Depends(get_user_service)) -> User:
-    return user_service.get(id=id)
-
-
-@router.post('/{id}',
+@router.post('/',
              status_code=status.HTTP_201_CREATED,
              response_model=UserOut)
 async def create_user(user: UserCreate,
@@ -29,6 +22,13 @@ async def create_user(user: UserCreate,
             response_model=List[UserOut])
 async def list_user(user_service: UserService = Depends(get_user_service)) -> List[User]:
     return user_service.list()
+
+
+@router.get('/{id}',
+            response_model=UserOut)
+async def get_user(id: UUID4,
+                   user_service: UserService = Depends(get_user_service)) -> User:
+    return user_service.get(id=id)
 
 
 @router.patch('/{id}',

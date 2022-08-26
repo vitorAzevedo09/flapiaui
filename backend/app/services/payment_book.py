@@ -6,7 +6,7 @@ from ..models.payment_book import PaymentBook
 from ..schemas.payment_book import PaymentBookCreate, PaymentBookUpdate
 from ..configs.sessions import get_session
 
-from base import BaseService
+from .base import BaseService
 
 class PaymentBookService(BaseService[PaymentBook, PaymentBookCreate, PaymentBookUpdate]):
     def __init__(self, db_session: Session):
