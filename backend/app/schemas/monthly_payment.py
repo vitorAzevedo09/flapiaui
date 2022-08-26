@@ -1,6 +1,6 @@
 from typing import Optional
 from pydantic import BaseModel
-from pydantic.types import condecimal, UUID4, constr
+from pydantic.types import condecimal, UUID4
 
 from ..helpers.convertion import to_camel
 
