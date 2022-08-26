@@ -12,7 +12,6 @@ class PaymentBookBase(BaseModel):
         allow_population_by_field_name = True
 
 class PaymentBookCreate(PaymentBookBase):
-    payment_book_id: UUID4
     payer_id: UUID4
     year: int
 
